@@ -7,7 +7,7 @@ Provides around(:all) hooks for RSpec.
 In your Gemfile:
 
 ``` ruby
-gem 'rspec_around_all', git: 'git://gist.github.com/2005175.git'
+gem 'rspec_around_all', require: false
 ```
 
 In a spec:
