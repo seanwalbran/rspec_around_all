@@ -2,7 +2,9 @@
 *.rbc
 .bundle
 .config
+.rvmrc
 coverage
+Gemfile.lock
 InstalledFiles
 lib/bundler/man
 pkg
