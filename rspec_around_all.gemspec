@@ -1,9 +1,9 @@
 Gem::Specification.new do |s|
   s.name        = 'rspec_around_all'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.platform    = Gem::Platform::RUBY
-  s.authors      = 'Myron Marston'
-  s.email       = 'myron.marston@gmail.com'
+  s.authors      = ['Myron Marston', 'Sean Walbran']
+  s.email       = 'seanwalbran@gmail.com'
   s.homepage    = 'https://github.com/seanwalbran/rspec_around_all'
   s.summary     = 'Provides around(:all) hook for RSpec'
   s.license     = 'MIT'
