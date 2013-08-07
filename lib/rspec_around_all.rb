@@ -12,7 +12,7 @@ module RSpecAroundAll
     end
   end
 
-  def around(scope, &block)
+  def around(scope = :each, &block)
     # let RSpec handle around(:each) hooks...
     return super(scope, &block) unless scope == :all
 

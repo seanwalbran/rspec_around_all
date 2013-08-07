@@ -71,6 +71,23 @@ module RSpec
         group.run(double.as_null_object)
         order.should eq([:before, :e1, :after, :before, :e2, :after])
       end
+
+      it 'allows around hooks with no scope argument to run as normal' do
+        order = []
+
+        group = ExampleGroup.describe "group" do
+          around do |e|
+            order << :before
+            e.run
+            order << :after
+          end
+          specify { order << :e1 }
+          specify { order << :e2 }
+        end
+
+        group.run(double.as_null_object)
+        order.should eq([:before, :e1, :after, :before, :e2, :after])
+      end
     end
   end
 end
