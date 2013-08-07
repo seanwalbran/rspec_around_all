@@ -29,7 +29,14 @@ describe "MyClass" do
 end
 ```
 
-You may want to check out my [blog post](http://myronmars.to/n/dev-blog/2012/03/building-an-around-hook-using-fibers) about this.
+See also the original [blog post](http://myronmars.to/n/dev-blog/2012/03/building-an-around-hook-using-fibers) about this.
+
+## Contributing
+
+* Fork the project
+* Add tests
+* Fix the issue / add the feature
+* Submit pull request on github
 
 ## Copyright
 
