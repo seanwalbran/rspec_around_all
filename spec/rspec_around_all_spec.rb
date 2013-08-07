@@ -16,7 +16,7 @@ module RSpec
           specify { order << :e2 }
         end
 
-        group.run(stub.as_null_object)
+        group.run(double.as_null_object)
         order.should eq([:before, :e1, :e2, :after])
       end
 
@@ -37,7 +37,7 @@ module RSpec
           specify { self.class.order << :e2 }
         end
 
-        group.run(stub.as_null_object)
+        group.run(double.as_null_object)
         group.order.should eq([:before, :e1, :e2, :after])
       end
 
@@ -51,7 +51,7 @@ module RSpec
           specify { }
         end
 
-        group.run(stub.as_null_object)
+        group.run(double.as_null_object)
         foo_value.should eq(:bar)
       end
 
@@ -68,7 +68,7 @@ module RSpec
           specify { order << :e2 }
         end
 
-        group.run(stub.as_null_object)
+        group.run(double.as_null_object)
         order.should eq([:before, :e1, :after, :before, :e2, :after])
       end
     end
