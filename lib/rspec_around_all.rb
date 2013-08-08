@@ -17,27 +17,36 @@ module RSpecAroundAll
   end
 
   def around(scope = :each, &block)
-    return around_all &block if scope == :all
     # let RSpec handle around(:each) hooks...
-    return super(scope, &block) unless scope == :all_nested
-    around_all do |group|
-      group.children.each {|c| c.around(:all_nested, &block) }
-      block[group]
-    end
+    return super(scope, &block) unless scope == :all || scope == :all_nested
+    _around(scope, &block)
   end
 
   private
 
   FIBERS_STACK = []
 
-  def around_all(&block)
-    prepend_before(:all) do |group|
+  def _around(scope, prepend = nil, &block)
+    prepend ||= self.instance_of? ::RSpec::Core::Configuration
+    return around_all prepend, &block if scope == :all
+    around_all(prepend) do |group|
+      group.children.each {|c| c.send :_around, :all_nested, prepend, &block }
+      block[group]
+    end
+  end
+
+  def around_all(prepend, &block)
+    methods = {
+      before: method(prepend ? :prepend_before : :before),
+      after:  method(prepend ? :prepend_after  : :after),
+    }
+    methods[:before].call :all do |group|
       fiber = Fiber.new(&block)
       FIBERS_STACK << fiber
       fiber.resume(FiberAwareGroup.new(group.class))
     end
 
-    prepend_after(:all) do
+    methods[:after].call :all do
       fiber = FIBERS_STACK.pop
       fiber.resume
     end

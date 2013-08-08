@@ -105,35 +105,58 @@ module RSpec
     describe "config.around(:all) hook", order: [], count: {all_nested: 0, all: 0} do
       order = nil
       context "part 1" do
-        around(:all) do |g|
+        2.times do |i| # test append/prepend hook behavior when two around(:all) blocks are defined
+          around(:all) do |g|
+            order = g.metadata[:order]
+            order << "inner.before(:all) #{i}"
+            g.run_examples
+            order << "inner.after(:all) #{i}"
+          end
+        end
+
+        around(:all_nested) do |g|
           order = g.metadata[:order]
-          order << 'inner.before(:all)'
+          order << "inner.before(:all_nested)"
           g.run_examples
-          order << 'inner.after(:all)'
+          order << "inner.after(:all_nested)"
         end
 
         specify { order << 'first' }
         specify { order << 'second' }
 
-        example "blocks are executed in the right order" do
-          expect(order).to eq [
-            'config.before(:all_nested) 1',
-            'config.before(:all) 1',
-            'config.before(:all_nested) 2',
-            'inner.before(:all)',
-            'first',
-            'second',
-          ]
+
+        context "inner" do
+          specify { order << 'inner example'}
+
+          example "blocks are executed in the right order" do
+            expect(order).to eq [
+              'config.before(:all_nested) 1',
+              'config.before(:all) 1',
+              'config.before(:all_nested) 2',
+              'inner.before(:all) 0',
+              'inner.before(:all) 1',
+              'inner.before(:all_nested)',
+              'first',
+              'second',
+              'config.before(:all_nested) 3',
+              'inner.before(:all_nested)',
+              'inner example',
+            ]
+          end
         end
       end
 
       # this context won't pass if run alone (rspec -e "part 2") since it depends on part 1 to run before it
       context "part 2" do
         example "before and after hooks order is correct" do
-          expect(order[-3..-1]).to eq [
-            'inner.after(:all)', # part 1
-            'config.after(:all_nested) 2', # inner config.around
-            'config.before(:all_nested) 3', # config.before part 2
+          expect(order[-7..-1]).to eq [
+            'inner.after(:all_nested)', # part 1, context
+            'config.after(:all_nested) 3', # inner context
+            'inner.after(:all_nested)', # part 1, inner context
+            'inner.after(:all) 1', # part 1, first around(:all)
+            'inner.after(:all) 0', # part 1, second around(:all)
+            'config.after(:all_nested) 2', # context
+            'config.before(:all_nested) 4', # config.before part 2
           ]
         end
       end
