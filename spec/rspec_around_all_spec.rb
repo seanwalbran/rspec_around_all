@@ -130,8 +130,8 @@ module RSpec
 
           example "blocks are executed in the right order" do
             expect(order).to eq [
-              'config.before(:all_nested) 1',
               'config.before(:all) 1',
+              'config.before(:all_nested) 1',
               'config.before(:all_nested) 2',
               'inner.before(:all) 0',
               'inner.before(:all) 1',

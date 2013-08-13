@@ -26,11 +26,27 @@ module RSpecAroundAll
 
   FIBERS_STACK = []
 
-  def _around(scope, prepend = nil, &block)
-    prepend ||= self.instance_of? ::RSpec::Core::Configuration
-    return around_all prepend, &block if scope == :all
+  def _around(scope, &block)
+    (handle_config_around scope, &block; return) if self.instance_of? ::RSpec::Core::Configuration
+    return around_all false, &block if scope == :all
+    around_all(false) do |group|
+      group.children.each {|c| c.send :_around, :all_nested, &block }
+      block[group]
+    end
+  end
+
+  CONFIG_AROUND_ALL_NESTED_BLOCKS = []
+  CONFIG_AROUND_ALL_PROCESSED_BY_GROUP = {}
+  def handle_config_around(scope, store = true, prepend = false, &block)
+    blocks = CONFIG_AROUND_ALL_NESTED_BLOCKS
+    blocks << block if scope == :all_nested && store
     around_all(prepend) do |group|
-      group.children.each {|c| c.send :_around, :all_nested, prepend, &block }
+      if scope == :all_nested && !CONFIG_AROUND_ALL_PROCESSED_BY_GROUP[group.name]
+        CONFIG_AROUND_ALL_PROCESSED_BY_GROUP[group.name] = true
+        blocks.reverse_each do |b|
+          group.children.each{|c| c.send :handle_config_around, :all_nested, false, true, &b }
+        end
+      end
       block[group]
     end
   end
