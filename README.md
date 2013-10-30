@@ -43,3 +43,7 @@ See also the original [blog post](http://myronmars.to/n/dev-blog/2012/03/buildin
 Copyright (c) 2012-2013 Myron Marston. Released under the terms of the
 MIT license. See LICENSE for details.
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rosenfeld/rspec_around_all/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
