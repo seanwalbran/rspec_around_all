@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.test_files     = Dir["{spec}/**/*"]
   s.require_paths  = ['lib']
 
-  s.add_dependency 'rspec', "~> 2.0"
+  s.add_dependency 'rspec'
 
   s.required_ruby_version = '>= 1.9.2'
 end
