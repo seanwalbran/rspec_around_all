@@ -8,7 +8,7 @@ rspec_version = case ENV["RSPEC_VERSION"].to_s
 
 Gem::Specification.new do |s|
   s.name        = 'rspec_around_all'
-  s.version     = '0.2'
+  s.version     = '0.2.0'
   s.platform    = Gem::Platform::RUBY
   s.authors      = ['Myron Marston', 'Sean Walbran']
   s.email       = 'seanwalbran@gmail.com'
