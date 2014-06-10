@@ -17,7 +17,7 @@ module RSpec
         end
 
         group.run(double.as_null_object)
-        order.should eq([:before, :e1, :e2, :after])
+        expect(order).to eq([:before, :e1, :e2, :after])
       end
 
       it 'allows the yielded arg to be treated as a proc' do
@@ -38,7 +38,7 @@ module RSpec
         end
 
         group.run(double.as_null_object)
-        group.order.should eq([:before, :e1, :e2, :after])
+        expect(group.order).to eq([:before, :e1, :e2, :after])
       end
 
       it 'can access metadata in the hook' do
@@ -52,7 +52,7 @@ module RSpec
         end
 
         group.run(double.as_null_object)
-        foo_value.should eq(:bar)
+        expect(foo_value).to eq(:bar)
       end
 
       it 'allows around(:each) hooks to run as normal' do
@@ -69,7 +69,7 @@ module RSpec
         end
 
         group.run(double.as_null_object)
-        order.should eq([:before, :e1, :after, :before, :e2, :after])
+        expect(order).to eq([:before, :e1, :after, :before, :e2, :after])
       end
 
       it 'allows around hooks with no scope argument to run as normal' do
@@ -86,7 +86,7 @@ module RSpec
         end
 
         group.run(double.as_null_object)
-        order.should eq([:before, :e1, :after, :before, :e2, :after])
+        expect(order).to eq([:before, :e1, :after, :before, :e2, :after])
       end
     end
   end

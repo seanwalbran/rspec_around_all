@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/seanwalbran/rspec_around_all.png?branch=master)](http://travis-ci.org/seanwalbran/rspec_around_all)
+
 # RSpec Around All
 
 Provides around(:all) hooks for RSpec.
